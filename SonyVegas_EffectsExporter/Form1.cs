@@ -9,6 +9,8 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
+
 
 namespace SonyVegas_EffectsExporter
 {
@@ -49,7 +51,7 @@ namespace SonyVegas_EffectsExporter
             }
             else
             {
-                MessageBox.Show("");
+                MessageBox.Show("Please select something", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -91,15 +93,23 @@ namespace SonyVegas_EffectsExporter
             int selectedIndex = 0;
             if (listView1.SelectedIndices.Count > 0)
             {
-                selectedIndex = listView1.SelectedIndices[0];
-                MessageBox.Show(listView1.SelectedItems[0].Text);
-                Effects.ExportReg(@"HKEY_USERS\S-1-5-21-2384987514-954954182-3699566690-1001\SOFTWARE\DXTransform\Presets\{" + Effects.Effect_CodeName[selectedIndex] + "}", listView1.SelectedItems[0].Text.Replace(" ", "") + "_Preset");
+                if (radioButton3.Checked == true)//NewBlue
+                {
+                    selectedIndex = listView1.SelectedIndices[0];
+                    Effects.ExportReg(@"HKEY_USERS\S-1-5-21-2384987514-954954182-3699566690-1001\SOFTWARE\DXTransform\Presets\{" + Effects.Effect_CodeName[selectedIndex] + "}", listView1.SelectedItems[0].Text.Replace(" ", "") + "_Preset");
+                }
+                else if (radioButton5.Checked == true || radioButton1.Checked == true || radioButton2.Checked == true || radioButton4.Checked == true)
+                {
+                    Effects.ExportXML(listView1.SelectedItems[0].Text);
+                }
+                Process.Start(Directory.GetCurrentDirectory());
             }
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             Effects.ExportReg(@"HKEY_USERS\S-1-5-21-2384987514-954954182-3699566690-1001\SOFTWARE\DXTransform\", "All_Effect_Presets");
+            Process.Start(Directory.GetCurrentDirectory());
         }
 
         private void button7_Click(object sender, EventArgs e)
