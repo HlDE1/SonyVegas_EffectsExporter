@@ -34,6 +34,7 @@ namespace SonyVegas_EffectsExporter
             this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.radioButton4 = new System.Windows.Forms.RadioButton();
             this.listView1 = new System.Windows.Forms.ListView();
+            this.Names = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.button1 = new System.Windows.Forms.Button();
             this.listView2 = new System.Windows.Forms.ListView();
             this.button2 = new System.Windows.Forms.Button();
@@ -49,7 +50,8 @@ namespace SonyVegas_EffectsExporter
             this.radioButton6 = new System.Windows.Forms.RadioButton();
             this.radioButton7 = new System.Windows.Forms.RadioButton();
             this.radioButton8 = new System.Windows.Forms.RadioButton();
-            this.Names = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.button7 = new System.Windows.Forms.Button();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // radioButton1
@@ -63,7 +65,6 @@ namespace SonyVegas_EffectsExporter
             this.radioButton1.TabIndex = 0;
             this.radioButton1.Text = "Sapphire";
             this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.Visible = false;
             // 
             // radioButton2
             // 
@@ -76,7 +77,6 @@ namespace SonyVegas_EffectsExporter
             this.radioButton2.TabIndex = 1;
             this.radioButton2.Text = "Universal";
             this.radioButton2.UseVisualStyleBackColor = true;
-            this.radioButton2.Visible = false;
             // 
             // radioButton3
             // 
@@ -95,18 +95,19 @@ namespace SonyVegas_EffectsExporter
             this.radioButton4.AutoSize = true;
             this.radioButton4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButton4.ForeColor = System.Drawing.Color.White;
-            this.radioButton4.Location = new System.Drawing.Point(401, 22);
+            this.radioButton4.Location = new System.Drawing.Point(398, 22);
             this.radioButton4.Name = "radioButton4";
             this.radioButton4.Size = new System.Drawing.Size(53, 20);
             this.radioButton4.TabIndex = 3;
             this.radioButton4.Text = "BCC";
             this.radioButton4.UseVisualStyleBackColor = true;
-            this.radioButton4.Visible = false;
             // 
             // listView1
             // 
+            this.listView1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.Names});
+            this.listView1.ForeColor = System.Drawing.Color.White;
             this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(12, 242);
@@ -117,6 +118,11 @@ namespace SonyVegas_EffectsExporter
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
+            // 
+            // Names
+            // 
+            this.Names.Text = "Names";
+            this.Names.Width = 345;
             // 
             // button1
             // 
@@ -131,13 +137,18 @@ namespace SonyVegas_EffectsExporter
             // 
             // listView2
             // 
+            this.listView2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.listView2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1});
+            this.listView2.ForeColor = System.Drawing.Color.White;
+            this.listView2.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.listView2.HideSelection = false;
             this.listView2.Location = new System.Drawing.Point(383, 242);
             this.listView2.Name = "listView2";
             this.listView2.Size = new System.Drawing.Size(352, 370);
             this.listView2.TabIndex = 6;
             this.listView2.UseCompatibleStateImageBehavior = false;
-            this.listView2.View = System.Windows.Forms.View.List;
+            this.listView2.View = System.Windows.Forms.View.Details;
             // 
             // button2
             // 
@@ -175,7 +186,7 @@ namespace SonyVegas_EffectsExporter
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(128, 215);
+            this.label1.Location = new System.Drawing.Point(79, 215);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(18, 20);
             this.label1.TabIndex = 11;
@@ -189,9 +200,9 @@ namespace SonyVegas_EffectsExporter
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(12, 215);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(110, 20);
+            this.label2.Size = new System.Drawing.Size(63, 20);
             this.label2.TabIndex = 12;
-            this.label2.Text = "Effect Names:";
+            this.label2.Text = "Names:";
             // 
             // label3
             // 
@@ -254,26 +265,24 @@ namespace SonyVegas_EffectsExporter
             this.radioButton6.AutoSize = true;
             this.radioButton6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButton6.ForeColor = System.Drawing.Color.White;
-            this.radioButton6.Location = new System.Drawing.Point(481, 22);
+            this.radioButton6.Location = new System.Drawing.Point(473, 22);
             this.radioButton6.Name = "radioButton6";
             this.radioButton6.Size = new System.Drawing.Size(77, 20);
             this.radioButton6.TabIndex = 17;
             this.radioButton6.Text = "Pancrop";
             this.radioButton6.UseVisualStyleBackColor = true;
-            this.radioButton6.Visible = false;
             // 
             // radioButton7
             // 
             this.radioButton7.AutoSize = true;
             this.radioButton7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButton7.ForeColor = System.Drawing.Color.White;
-            this.radioButton7.Location = new System.Drawing.Point(575, 22);
+            this.radioButton7.Location = new System.Drawing.Point(562, 22);
             this.radioButton7.Name = "radioButton7";
-            this.radioButton7.Size = new System.Drawing.Size(122, 20);
+            this.radioButton7.Size = new System.Drawing.Size(181, 20);
             this.radioButton7.TabIndex = 18;
-            this.radioButton7.Text = "Render Settings";
+            this.radioButton7.Text = "Favourite Render Settings";
             this.radioButton7.UseVisualStyleBackColor = true;
-            this.radioButton7.Visible = false;
             // 
             // radioButton8
             // 
@@ -288,10 +297,21 @@ namespace SonyVegas_EffectsExporter
             this.radioButton8.UseVisualStyleBackColor = true;
             this.radioButton8.Visible = false;
             // 
-            // Names
+            // button7
             // 
-            this.Names.Text = "Names";
-            this.Names.Width = 345;
+            this.button7.Location = new System.Drawing.Point(298, 57);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(75, 23);
+            this.button7.TabIndex = 20;
+            this.button7.Text = "button7";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Visible = false;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Preset Names";
+            this.columnHeader1.Width = 345;
             // 
             // Form1
             // 
@@ -299,6 +319,7 @@ namespace SonyVegas_EffectsExporter
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
             this.ClientSize = new System.Drawing.Size(748, 674);
+            this.Controls.Add(this.button7);
             this.Controls.Add(this.radioButton8);
             this.Controls.Add(this.radioButton7);
             this.Controls.Add(this.radioButton6);
@@ -322,7 +343,7 @@ namespace SonyVegas_EffectsExporter
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "Form1";
-            this.Text = "Sony Vegas Effects Exporter/Importer";
+            this.Text = "Sony Vegas Effects Exporter";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -351,5 +372,7 @@ namespace SonyVegas_EffectsExporter
         private System.Windows.Forms.RadioButton radioButton7;
         private System.Windows.Forms.RadioButton radioButton8;
         private System.Windows.Forms.ColumnHeader Names;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
     }
 }

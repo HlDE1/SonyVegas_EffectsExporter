@@ -96,7 +96,7 @@ namespace SonyVegas_EffectsExporter
 
         #endregion
 
-
+        #region Sony
         public static void GetSony(ListView listView)
         {
             string document_path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OFX Presets";
@@ -133,8 +133,162 @@ namespace SonyVegas_EffectsExporter
             {
 
             }
-            
+
         }
-            
+        #endregion
+
+
+        #region RenderSettings
+
+
+        public static void GetRenderSettings(ListView listView1, ListView listView2)
+        {
+            string AppData_path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Sony\Render Templates";
+            string FavouriteRenderSettings_Path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Sony\Render Templates\avc-mc";
+
+            listView1.Items.Add(Path.GetFileName(Directory.GetFiles(AppData_path)[0]));
+            for (int i = 0; i < Directory.GetFiles(FavouriteRenderSettings_Path).Length; i++)
+                listView2.Items.Add(Path.GetFileName(Directory.GetFiles(FavouriteRenderSettings_Path)[i]));
+
+            //MessageBox.Show(Directory.GetFiles(AppData_path)[0]);
+        }
+
+        #endregion
+
+        #region Pancrop
+
+        //HKEY_CURRENT_USER\SOFTWARE\Sony Creative Software\Vegas Pro\13.0\Metrics\Application
+
+        #endregion
+
+        //HKEY_CURRENT_USER\SOFTWARE\Sony Creative Software\Vegas Pro\13.0\Metrics\VideoProProfiles
+
+
+
+        #region Sapphire
+        public static void GetSapphire(ListView listView)
+        {
+            string document_path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OFX Presets";
+            string text = "";
+            for (int i = 0; i < Directory.GetDirectories(document_path).Length; i++)
+            {
+                if (Directory.GetDirectories(document_path)[i].Contains("com.genarts.sapphire"))
+                {
+                    text = Path.GetFileName(Directory.GetDirectories(document_path)[i]).Replace("com.genarts.sapphire.", "");
+                    listView.Items.Add(text);
+                }
+            }
+        }
+
+        public static void GetSapphirePresetName(ListView listView1, ListView listView2)
+        {
+            try
+            {
+                string document_path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OFX Presets/";
+                string filter_path = "";
+                int selectedIndex = 0;
+                if (listView1.SelectedIndices.Count > 0)
+                {
+                    selectedIndex = listView1.SelectedIndices[0];
+
+                    filter_path = document_path + "com.genarts.sapphire." + listView1.SelectedItems[0].Text + "/Filter/";
+                    for (int i = 0; i < Directory.GetFiles(filter_path).Length; i++)
+                    {
+                        listView2.Items.Add(Directory.GetFiles(filter_path)[i].Replace(filter_path, ""));
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+
+        }
+
+        #endregion
+
+        #region BCC
+
+        public static void GetBCC(ListView listView)
+        {
+            string document_path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OFX Presets";
+            string text = "";
+            for (int i = 0; i < Directory.GetDirectories(document_path).Length; i++)
+            {
+                if (Directory.GetDirectories(document_path)[i].Contains("com.borisfx"))
+                {
+                    text = Path.GetFileName(Directory.GetDirectories(document_path)[i]).Replace("com.borisfx_BCC3", "");
+                    listView.Items.Add(text);
+                }
+            }
+        }
+
+        public static void GetBCCPresetName(ListView listView1, ListView listView2)
+        {
+            try
+            {
+                string document_path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OFX Presets/";
+                string filter_path = "";
+                int selectedIndex = 0;
+                if (listView1.SelectedIndices.Count > 0)
+                {
+                    selectedIndex = listView1.SelectedIndices[0];
+
+                    filter_path = document_path + "com.borisfx_BCC3" + listView1.SelectedItems[0].Text + "/Filter/";
+                    for (int i = 0; i < Directory.GetFiles(filter_path).Length; i++)
+                    {
+                        listView2.Items.Add(Directory.GetFiles(filter_path)[i].Replace(filter_path, ""));
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+
+        }
+
+        #endregion
+
+        #region Universe
+        public static void GetUniverse(ListView listView)
+        {
+            string document_path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OFX Presets";
+            string text = "";
+            for (int i = 0; i < Directory.GetDirectories(document_path).Length; i++)
+            {
+                if (Directory.GetDirectories(document_path)[i].Contains("com.redgiantsoftware.Universe_"))
+                {
+                    text = Path.GetFileName(Directory.GetDirectories(document_path)[i]).Replace("com.redgiantsoftware.Universe_", "");
+                    listView.Items.Add(text);
+                }
+            }
+        }
+
+        public static void GetUniversePresetName(ListView listView1, ListView listView2)
+        {
+            try
+            {
+                string document_path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OFX Presets/";
+                string filter_path = "";
+                int selectedIndex = 0;
+                if (listView1.SelectedIndices.Count > 0)
+                {
+                    selectedIndex = listView1.SelectedIndices[0];
+
+                    filter_path = document_path + "com.redgiantsoftware.Universe_" + listView1.SelectedItems[0].Text + "/Filter/";
+                    for (int i = 0; i < Directory.GetFiles(filter_path).Length; i++)
+                    {
+                        listView2.Items.Add(Directory.GetFiles(filter_path)[i].Replace(filter_path, ""));
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+
+        }
+        #endregion
     }
 }
