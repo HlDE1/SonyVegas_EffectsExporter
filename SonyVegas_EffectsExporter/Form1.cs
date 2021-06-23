@@ -24,6 +24,7 @@ namespace SonyVegas_EffectsExporter
         private void button1_Click(object sender, EventArgs e)
         {
             listView1.Items.Clear();
+            listView2.Items.Clear();
             if (radioButton3.Checked == true)//NewBlue
             {
                 Effects.GetNewBlue(listView1, label1, progressBar1);
@@ -39,7 +40,6 @@ namespace SonyVegas_EffectsExporter
             else if (radioButton1.Checked == true)//Sapphire
             {
                 Effects.GetSapphire(listView1);
-
             }
             else if (radioButton2.Checked == true)//Universe
             {
@@ -48,6 +48,10 @@ namespace SonyVegas_EffectsExporter
             else if (radioButton4.Checked == true)//BCC
             {
                 Effects.GetBCC(listView1);
+            }
+            else if (radioButton6.Checked == true)//Pancrop
+            {
+
             }
             else
             {
@@ -90,35 +94,130 @@ namespace SonyVegas_EffectsExporter
 
         private void button2_Click(object sender, EventArgs e)
         {
+            string OFX_Presets_path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OFX Presets/";
             int selectedIndex = 0;
             if (listView1.SelectedIndices.Count > 0)
             {
-                if (radioButton3.Checked == true)//NewBlue
+                if (listView2.CheckedItems.Count > 0)
                 {
                     selectedIndex = listView1.SelectedIndices[0];
-                    Effects.ExportReg(@"HKEY_USERS\S-1-5-21-2384987514-954954182-3699566690-1001\SOFTWARE\DXTransform\Presets\{" + Effects.Effect_CodeName[selectedIndex] + "}", listView1.SelectedItems[0].Text.Replace(" ", "") + "_Preset");
+
+                    if (radioButton3.Checked == true)//NewBlue
+                    {
+                        Effects.ExportReg(@"HKEY_USERS\S-1-5-21-2384987514-954954182-3699566690-1001\SOFTWARE\DXTransform\Presets\{" + Effects.Effect_CodeName[selectedIndex] + "}", listView1.SelectedItems[0].Text.Replace(" ", "") + "_Preset");
+                    }
+                    else if (radioButton5.Checked == true || radioButton1.Checked == true || radioButton2.Checked == true || radioButton4.Checked == true)
+                    {
+                        for (int i = 0; i < listView2.Items.Count; i++)
+                        {
+                            if (listView2.Items[i].Checked == true)
+                            {
+                                Effects.ExportXML(OFX_Presets_path, listView1.SelectedItems[0].Text, i);
+                            }
+                        }
+                    }
+                    else if (radioButton7.Checked == true)
+                    {
+
+                    }
+                    Process.Start(Directory.GetCurrentDirectory());
                 }
-                else if (radioButton5.Checked == true || radioButton1.Checked == true || radioButton2.Checked == true || radioButton4.Checked == true)
+                else
                 {
-                    Effects.ExportXML(listView1.SelectedItems[0].Text);
+                    MessageBox.Show("Please Select A Preset", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                Process.Start(Directory.GetCurrentDirectory());
+            }
+            else
+            {
+                MessageBox.Show("Please select something", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Effects.ExportReg(@"HKEY_USERS\S-1-5-21-2384987514-954954182-3699566690-1001\SOFTWARE\DXTransform\", "All_Effect_Presets");
+            string OFX_Presets_path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OFX Presets/";
+
+            if (radioButton3.Checked == true)//NewBlue
+            {
+                Effects.ExportReg(@"HKEY_USERS\S-1-5-21-2384987514-954954182-3699566690-1001\SOFTWARE\DXTransform\", "All_Effect_Presets");
+            }
+            else if (radioButton5.Checked == true || radioButton1.Checked == true || radioButton2.Checked == true || radioButton4.Checked == true)
+            {
+                for (int i = 0; i < listView1.Items.Count; i++)
+                {
+                    for (int j = 0; j < listView2.Items.Count; j++)
+                    {
+                        Effects.ExportXML(OFX_Presets_path, listView1.Items[i].Text, j);
+                    }
+                }
+            }
+            else if (radioButton7.Checked == true)
+            {
+                for (int i = 0; i < listView1.Items.Count; i++)
+                {
+                    //Effects.ExportXML("", listView1.Items[i].Text);
+                }
+            }
             Process.Start(Directory.GetCurrentDirectory());
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
-            ImageList imgs = new ImageList();
+            /*ImageList imgs = new ImageList();
             imgs.ImageSize = new Size(20, 20);
             imgs.Images.Add(Resource1.notepad);
             listView2.SmallImageList = imgs;
-            listView2.Items.Add("Test", 0);
+            listView2.Items.Add("Test", 0);*/
+            for (int i = 0; i < listView2.Items.Count; i++)
+            {
+
+                if (listView2.Items[i].Checked == true)
+                    MessageBox.Show(listView2.Items[i].Text + " " + listView2.CheckedItems.Count.ToString());
+            }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked == true)
+            {
+                checkBox1.Text = "Uncheck All";
+                for (int i = 0; i < listView2.Items.Count; i++)
+                {
+                    if (!listView2.Items[i].Checked)
+                        listView2.Items[i].Checked = true;
+                }
+            }
+            else
+            {
+                checkBox1.Text = "Check All";
+                for (int i = 0; i < listView2.Items.Count; i++)
+                {
+                    if (listView2.Items[i].Checked)
+                        listView2.Items[i].Checked = false;
+                }
+            }
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox2.Checked == true)
+            {
+                checkBox2.Text = "Uncheck All";
+                for (int i = 0; i < listView1.Items.Count; i++)
+                {
+                    if (!listView1.Items[i].Checked)
+                        listView1.Items[i].Checked = true;
+                }
+            }
+            else
+            {
+                checkBox2.Text = "Check All";
+                for (int i = 0; i < listView1.Items.Count; i++)
+                {
+                    if (listView1.Items[i].Checked)
+                        listView1.Items[i].Checked = false;
+                }
+            }
         }
     }
 }

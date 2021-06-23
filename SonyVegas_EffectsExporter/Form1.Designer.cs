@@ -37,6 +37,7 @@ namespace SonyVegas_EffectsExporter
             this.Names = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.button1 = new System.Windows.Forms.Button();
             this.listView2 = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
@@ -51,7 +52,8 @@ namespace SonyVegas_EffectsExporter
             this.radioButton7 = new System.Windows.Forms.RadioButton();
             this.radioButton8 = new System.Windows.Forms.RadioButton();
             this.button7 = new System.Windows.Forms.Button();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // radioButton1
@@ -138,17 +140,24 @@ namespace SonyVegas_EffectsExporter
             // listView2
             // 
             this.listView2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.listView2.CheckBoxes = true;
             this.listView2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1});
             this.listView2.ForeColor = System.Drawing.Color.White;
             this.listView2.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.listView2.HideSelection = false;
             this.listView2.Location = new System.Drawing.Point(383, 242);
+            this.listView2.MultiSelect = false;
             this.listView2.Name = "listView2";
             this.listView2.Size = new System.Drawing.Size(352, 370);
             this.listView2.TabIndex = 6;
             this.listView2.UseCompatibleStateImageBehavior = false;
             this.listView2.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Preset Names";
+            this.columnHeader1.Width = 345;
             // 
             // button2
             // 
@@ -305,13 +314,36 @@ namespace SonyVegas_EffectsExporter
             this.button7.TabIndex = 20;
             this.button7.Text = "button7";
             this.button7.UseVisualStyleBackColor = true;
-            this.button7.Visible = false;
             this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
-            // columnHeader1
+            // checkBox1
             // 
-            this.columnHeader1.Text = "Preset Names";
-            this.columnHeader1.Width = 345;
+            this.checkBox1.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.checkBox1.ForeColor = System.Drawing.Color.White;
+            this.checkBox1.Location = new System.Drawing.Point(642, 216);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(94, 24);
+            this.checkBox1.TabIndex = 21;
+            this.checkBox1.Text = "Check All";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.checkBox2.ForeColor = System.Drawing.Color.White;
+            this.checkBox2.Location = new System.Drawing.Point(270, 216);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(94, 24);
+            this.checkBox2.TabIndex = 22;
+            this.checkBox2.Text = "Check All";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.Visible = false;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
             // Form1
             // 
@@ -319,6 +351,8 @@ namespace SonyVegas_EffectsExporter
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
             this.ClientSize = new System.Drawing.Size(748, 674);
+            this.Controls.Add(this.checkBox2);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.radioButton8);
             this.Controls.Add(this.radioButton7);
@@ -374,5 +408,7 @@ namespace SonyVegas_EffectsExporter
         private System.Windows.Forms.ColumnHeader Names;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkBox2;
     }
 }

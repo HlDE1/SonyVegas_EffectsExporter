@@ -87,34 +87,6 @@ namespace SonyVegas_EffectsExporter
         }
 
 
-        public static void ExportReg(string path, string filename)
-        {
-
-            Process.Start("cmd.exe", $@"/c REG EXPORT {path} {filename}.reg");
-        }
-
-        public static void ExportXML(string filename)
-        {
-            string OFX_Presets_path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OFX Presets/";
-            for (int i = 0; i < Directory.GetDirectories(OFX_Presets_path).Length; i++)
-            {
-                if (Directory.GetDirectories(OFX_Presets_path)[i].Contains(filename))
-                {
-                    string DirName = Path.GetFileName(Directory.GetDirectories(OFX_Presets_path)[i]);
-                    string DirFullPath = Directory.GetDirectories(OFX_Presets_path)[i];
-                    string Full_FilterPath = $"{DirFullPath}/Filter/";
-                    string MoveTo_Full_FilterPath = Directory.GetCurrentDirectory() + $"/{DirName}/Filter";
-
-                    Directory.CreateDirectory(Directory.GetCurrentDirectory() + $"/{DirName}"); //Directory
-                    Directory.CreateDirectory(MoveTo_Full_FilterPath);//Directory + Filter
-                    for (int j = 0; j < Directory.GetFiles(Full_FilterPath).Length; j++)
-                    {
-                        string xmlFileName = Path.GetFileName(Directory.GetFiles(Full_FilterPath)[j]);
-                        File.Copy(Directory.GetFiles(Full_FilterPath)[j], MoveTo_Full_FilterPath + $"/{xmlFileName}");
-                    }
-                }
-            }
-        }
 
         #endregion
 
@@ -310,6 +282,47 @@ namespace SonyVegas_EffectsExporter
 
             }
 
+        }
+        #endregion
+
+
+        #region Export
+
+        public static void ExportReg(string path, string filename)
+        {
+
+            Process.Start("cmd.exe", $@"/c REG EXPORT {path} {filename}.reg");
+        }
+
+        public static void ExportXML(string path, string filename, int j)
+        {
+            try
+            {
+                //string OFX_Presets_path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OFX Presets/";
+                for (int i = 0; i < Directory.GetDirectories(path).Length; i++)
+                {
+                    if (Directory.GetDirectories(path)[i].Contains(filename))
+                    {
+                        string DirName = Path.GetFileName(Directory.GetDirectories(path)[i]);
+                        string DirFullPath = Directory.GetDirectories(path)[i];
+                        string Full_FilterPath = $"{DirFullPath}/Filter/";
+                        string MoveTo_Full_FilterPath = Directory.GetCurrentDirectory() + $"/{DirName}/Filter";
+
+
+                        Directory.CreateDirectory(Directory.GetCurrentDirectory() + $"/{DirName}"); //Directory
+                        Directory.CreateDirectory(MoveTo_Full_FilterPath);//Directory + Filter
+                        /*for (int j = 0; j < Directory.GetFiles(Full_FilterPath).Length; j++)
+                        {
+                            string xmlFileName = Path.GetFileName(Directory.GetFiles(Full_FilterPath)[j]);
+                            File.Copy(Directory.GetFiles(Full_FilterPath)[j], MoveTo_Full_FilterPath + $"/{xmlFileName}");
+                        }*/
+
+                        string xmlFileName = Path.GetFileName(Directory.GetFiles(Full_FilterPath)[j]);
+                        File.Copy(Directory.GetFiles(Full_FilterPath)[j], MoveTo_Full_FilterPath + $"/{xmlFileName}");
+                    }
+                }
+            }
+            catch { }
         }
         #endregion
     }
