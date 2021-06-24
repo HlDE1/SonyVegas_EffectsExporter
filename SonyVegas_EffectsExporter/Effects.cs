@@ -375,6 +375,30 @@ namespace SonyVegas_EffectsExporter
             }
             catch { }
         }
-        #endregion
+
+        public static void ExportFavoriteRender(string path, string filename, int j)
+        {
+            string AppDataRender_path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Sony\Render Templates";
+            string renderTemp_path = Directory.GetCurrentDirectory() + $"/Render Templates/";
+            string avc_mc = renderTemp_path + "avc-mc";
+            for (int i = 0; i < Directory.GetFiles(path).Length; i++)
+            {
+                if (Directory.GetFiles(path)[i].Contains(filename))
+                {          
+                    Directory.CreateDirectory(Directory.GetCurrentDirectory() + $"/Render Templates"); //Directory
+                    Directory.CreateDirectory(avc_mc);//Directory + avc_mc
+                    string renderFileName = Path.GetFileName(Directory.GetFiles(path)[j]);
+                    if (File.Exists(renderTemp_path + $"/avc-mc/{renderFileName}"))
+                        File.Delete(renderTemp_path + $"/avc-mc/{renderFileName}");
+                    File.Copy(Directory.GetFiles(path)[j], renderTemp_path + $"/avc-mc/{renderFileName}");
+                }
+            }
+            if (File.Exists(renderTemp_path + "/Favorites.settings"))
+                File.Delete(renderTemp_path + "/Favorites.settings");
+            File.Copy(AppDataRender_path + "/Favorites.settings", renderTemp_path + "/Favorites.settings");
+
+        }
     }
+    #endregion
+
 }

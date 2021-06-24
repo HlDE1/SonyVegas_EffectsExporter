@@ -147,7 +147,7 @@ namespace SonyVegas_EffectsExporter
                         {
                             if (listView2.Items[i].Checked == true)
                             {
-                                Effects.ExportXML(FavouriteRenderSettings_Path, listView1.SelectedItems[0].Text, i);
+                                Effects.ExportFavoriteRender(FavouriteRenderSettings_Path, listView2.Items[i].Text, i);
                             }
                         }
                     }
