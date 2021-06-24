@@ -168,12 +168,7 @@ namespace SonyVegas_EffectsExporter
             imgs.Images.Add(Resource1.notepad);
             listView2.SmallImageList = imgs;
             listView2.Items.Add("Test", 0);*/
-            for (int i = 0; i < listView2.Items.Count; i++)
-            {
-
-                if (listView2.Items[i].Checked == true)
-                    MessageBox.Show(listView2.Items[i].Text + " " + listView2.CheckedItems.Count.ToString());
-            }
+            Effects.RegistryRemoveSpecificData("");
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)

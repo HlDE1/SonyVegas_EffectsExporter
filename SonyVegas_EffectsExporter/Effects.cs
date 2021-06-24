@@ -294,6 +294,48 @@ namespace SonyVegas_EffectsExporter
             Process.Start("cmd.exe", $@"/c REG EXPORT {path} {filename}.reg");
         }
 
+        public static void RegistryAddSpecificDataToList(List<string> RegistryKey, string path)
+        {
+            string reg_file = File.ReadAllText(path);
+            string[] reg_file_line = File.ReadAllLines(path);
+            List<int> Lines = new List<int>();
+            string text = "";
+
+            for (int i = 0; i < reg_file.Split('\n').Length; i++)
+            {
+                if (reg_file.Split('\n')[i].Contains("=hex:"))
+                {
+                    Lines.Add(i);
+                }
+            }
+            Lines.Add(reg_file_line.Length);
+            RegistryKey.Add(reg_file_line[0] + "\n" + reg_file_line[1] + "\n" + reg_file_line[2]);
+            for (int a = 1; a < Lines.Count; a++)
+            {
+                for (int i = Lines[a - 1]; i < Lines[a]; i++)
+                {
+                    text += reg_file_line.Skip(i).Take(1).First() + "\n";
+
+                }
+                RegistryKey.Add(text);
+                text = "";
+            }
+        }
+        public static void RegistryRemoveSpecificData(string data)
+        {
+            List<string> Data = new List<string>();
+            RegistryAddSpecificDataToList(Data, "NewBlueFEFilmLook_Preset.reg");
+
+            for (int i = 0; i < Data.Count; i++)
+            {
+                if (!Data[i].Contains($"\"{data}\""))
+                {
+                    File.AppendAllText("NewBlueFEFilmLook_Preset2.reg", Data[i] + "\n");
+                    //MessageBox.Show(Data[i]);
+                }
+            }
+        }
+
         public static void ExportXML(string path, string filename, int j)
         {
             try
