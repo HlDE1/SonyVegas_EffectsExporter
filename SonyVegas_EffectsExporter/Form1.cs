@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
-
+using System.Threading;
 
 namespace SonyVegas_EffectsExporter
 {
@@ -95,7 +95,11 @@ namespace SonyVegas_EffectsExporter
         private void button2_Click(object sender, EventArgs e)
         {
             string OFX_Presets_path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OFX Presets/";
+            string AppDataRender_path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Sony\Render Templates";
+            string FavouriteRenderSettings_Path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Sony\Render Templates\avc-mc";
+
             int selectedIndex = 0;
+            string fileName = "";
             if (listView1.SelectedIndices.Count > 0)
             {
                 if (listView2.CheckedItems.Count > 0)
@@ -104,7 +108,28 @@ namespace SonyVegas_EffectsExporter
 
                     if (radioButton3.Checked == true)//NewBlue
                     {
-                        Effects.ExportReg(@"HKEY_USERS\S-1-5-21-2384987514-954954182-3699566690-1001\SOFTWARE\DXTransform\Presets\{" + Effects.Effect_CodeName[selectedIndex] + "}", listView1.SelectedItems[0].Text.Replace(" ", "") + "_Preset");
+                        fileName = listView1.SelectedItems[0].Text.Replace(" ", "") + "_Preset";
+                        if (File.Exists(fileName + ".reg"))
+                            File.Delete(fileName + ".reg");
+
+                        Effects.ExportReg(@"HKEY_USERS\S-1-5-21-2384987514-954954182-3699566690-1001\SOFTWARE\DXTransform\Presets\{" + Effects.Effect_CodeName[selectedIndex] + "}", fileName);
+                        Thread.Sleep(1000);
+                        if (listView2.CheckedItems.Count != listView2.Items.Count)
+                        {
+                            Effects.RegistryAddSpecificDataToList(fileName + ".reg");
+                            File.AppendAllText("temp.txt", Effects.NewBlueData[0] + "\n");
+                            for (int i = 0; i < listView2.Items.Count; i++)
+                            {
+                                if (listView2.Items[i].Checked == true)
+                                {
+                                    Effects.RegistryRemoveSpecificData(listView2.Items[i].Text, fileName + ".reg");
+                                }
+                            }
+                            File.Delete(fileName + ".reg");
+                            File.Move("temp.txt", fileName + ".reg");
+                            Effects.NewBlueData.Clear();
+                        }
+
                     }
                     else if (radioButton5.Checked == true || radioButton1.Checked == true || radioButton2.Checked == true || radioButton4.Checked == true)
                     {
@@ -118,9 +143,15 @@ namespace SonyVegas_EffectsExporter
                     }
                     else if (radioButton7.Checked == true)
                     {
-
+                        for (int i = 0; i < listView2.Items.Count; i++)
+                        {
+                            if (listView2.Items[i].Checked == true)
+                            {
+                                Effects.ExportXML(FavouriteRenderSettings_Path, listView1.SelectedItems[0].Text, i);
+                            }
+                        }
                     }
-                    Process.Start(Directory.GetCurrentDirectory());
+                    //Process.Start(Directory.GetCurrentDirectory());
                 }
                 else
                 {
@@ -168,7 +199,7 @@ namespace SonyVegas_EffectsExporter
             imgs.Images.Add(Resource1.notepad);
             listView2.SmallImageList = imgs;
             listView2.Items.Add("Test", 0);*/
-            Effects.RegistryRemoveSpecificData("");
+            //Effects.RegistryRemoveSpecificData("");
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)

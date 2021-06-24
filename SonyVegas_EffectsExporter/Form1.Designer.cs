@@ -288,9 +288,9 @@ namespace SonyVegas_EffectsExporter
             this.radioButton7.ForeColor = System.Drawing.Color.White;
             this.radioButton7.Location = new System.Drawing.Point(562, 22);
             this.radioButton7.Name = "radioButton7";
-            this.radioButton7.Size = new System.Drawing.Size(181, 20);
+            this.radioButton7.Size = new System.Drawing.Size(174, 20);
             this.radioButton7.TabIndex = 18;
-            this.radioButton7.Text = "Favourite Render Settings";
+            this.radioButton7.Text = "Favorite Render Settings";
             this.radioButton7.UseVisualStyleBackColor = true;
             // 
             // radioButton8

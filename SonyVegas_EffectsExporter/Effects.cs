@@ -15,6 +15,8 @@ namespace SonyVegas_EffectsExporter
     {
         public static List<string> Effect_CodeName = new List<string>();
 
+        public static List<string> NewBlueData = new List<string>();
+
         #region NewBlue
         public static void GetNewBlue(ListView listView, Label label, ProgressBar progressBar)
         {
@@ -294,44 +296,50 @@ namespace SonyVegas_EffectsExporter
             Process.Start("cmd.exe", $@"/c REG EXPORT {path} {filename}.reg");
         }
 
-        public static void RegistryAddSpecificDataToList(List<string> RegistryKey, string path)
+        public static void RegistryAddSpecificDataToList(string path)
         {
-            string reg_file = File.ReadAllText(path);
-            string[] reg_file_line = File.ReadAllLines(path);
-            List<int> Lines = new List<int>();
-            string text = "";
-
-            for (int i = 0; i < reg_file.Split('\n').Length; i++)
+            try
             {
-                if (reg_file.Split('\n')[i].Contains("=hex:"))
+                string reg_file = File.ReadAllText(path);
+                string[] reg_file_line = File.ReadAllLines(path);
+                List<int> Lines = new List<int>();
+                string text = "";
+                for (int i = 0; i < reg_file.Split('\n').Length; i++)
                 {
-                    Lines.Add(i);
+                    if (reg_file.Split('\n')[i].Contains("=hex:"))
+                    {
+                        Lines.Add(i);
+                    }
+                }
+                Lines.Add(reg_file_line.Length);
+                NewBlueData.Add(reg_file_line[0] + "\n" + reg_file_line[1] + "\n" + reg_file_line[2]);
+                for (int a = 1; a < Lines.Count; a++)
+                {
+                    for (int i = Lines[a - 1]; i < Lines[a]; i++)
+                    {
+                        text += reg_file_line.Skip(i).Take(1).First() + "\n";
+
+                    }
+                    NewBlueData.Add(text);
+                    text = "";
                 }
             }
-            Lines.Add(reg_file_line.Length);
-            RegistryKey.Add(reg_file_line[0] + "\n" + reg_file_line[1] + "\n" + reg_file_line[2]);
-            for (int a = 1; a < Lines.Count; a++)
+            catch (Exception e)
             {
-                for (int i = Lines[a - 1]; i < Lines[a]; i++)
-                {
-                    text += reg_file_line.Skip(i).Take(1).First() + "\n";
 
-                }
-                RegistryKey.Add(text);
-                text = "";
             }
         }
-        public static void RegistryRemoveSpecificData(string data)
-        {
-            List<string> Data = new List<string>();
-            RegistryAddSpecificDataToList(Data, "NewBlueFEFilmLook_Preset.reg");
 
-            for (int i = 0; i < Data.Count; i++)
+        public static void RegistryRemoveSpecificData(string data, string fileName)
+        {
+
+            for (int i = 0; i < NewBlueData.Count; i++)
             {
-                if (!Data[i].Contains($"\"{data}\""))
+                if (NewBlueData[i].Contains($"\"{data}\""))
                 {
-                    File.AppendAllText("NewBlueFEFilmLook_Preset2.reg", Data[i] + "\n");
-                    //MessageBox.Show(Data[i]);
+                    //File.AppendAllText(fileName, Data[i] + "\n");
+                    File.AppendAllText("temp.txt", NewBlueData[i] + "\n");
+                    //MessageBox.Show(NewBlueData[i]);
                 }
             }
         }
@@ -360,6 +368,7 @@ namespace SonyVegas_EffectsExporter
                         }*/
 
                         string xmlFileName = Path.GetFileName(Directory.GetFiles(Full_FilterPath)[j]);
+                        MessageBox.Show(Directory.GetFiles(Full_FilterPath)[j] + "\n\n" + MoveTo_Full_FilterPath + $"/{xmlFileName}");
                         File.Copy(Directory.GetFiles(Full_FilterPath)[j], MoveTo_Full_FilterPath + $"/{xmlFileName}");
                     }
                 }
