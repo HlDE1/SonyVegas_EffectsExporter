@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Threading;
+using Microsoft.Win32;
 
 namespace SonyVegas_EffectsExporter
 {
@@ -51,7 +52,7 @@ namespace SonyVegas_EffectsExporter
             }
             else if (radioButton6.Checked == true)//Pancrop
             {
-
+                Effects.GetPancrop(listView1);
             }
             else
             {
@@ -88,7 +89,10 @@ namespace SonyVegas_EffectsExporter
             else if (radioButton4.Checked == true)//BCC
             {
                 Effects.GetBCCPresetName(listView1, listView2);
-
+            }
+            else if (radioButton6.Checked == true)//Pancrop
+            {
+                Effects.GetPancropName(listView1, listView2);
             }
         }
 
@@ -151,6 +155,16 @@ namespace SonyVegas_EffectsExporter
                             }
                         }
                     }
+                    else if (radioButton6.Checked == true)
+                    {
+                        //for (int i = 0; i < listView2.Items.Count; i++)
+                        {
+                           // if (listView2.Items[i].Checked == true)
+                            {
+                                Effects.ExportPancrop();
+                            }
+                        }
+                    }
                     //Process.Start(Directory.GetCurrentDirectory());
                 }
                 else
@@ -194,12 +208,20 @@ namespace SonyVegas_EffectsExporter
 
         private void button7_Click(object sender, EventArgs e)
         {
+            string effect = @"SOFTWARE\Sony Creative Software\Vegas Pro\13.0\Metrics\Application";
+            var effect_key = Registry.CurrentUser.OpenSubKey(effect);
+            var effect_subKeys = effect_key.GetSubKeyNames();
             /*ImageList imgs = new ImageList();
             imgs.ImageSize = new Size(20, 20);
             imgs.Images.Add(Resource1.notepad);
             listView2.SmallImageList = imgs;
             listView2.Items.Add("Test", 0);*/
             //Effects.RegistryRemoveSpecificData("");
+            for (int i = 0; i < effect_key.GetValueNames().Length; i++)
+            {
+                if (effect_key.GetValueNames()[i].Contains("S44"))
+                    listView2.Items.Add(effect_key.GetValue(effect_key.GetValueNames()[i]).ToString());
+            }
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -244,6 +266,11 @@ namespace SonyVegas_EffectsExporter
                         listView1.Items[i].Checked = false;
                 }
             }
+        }
+
+        private void radioButton6_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

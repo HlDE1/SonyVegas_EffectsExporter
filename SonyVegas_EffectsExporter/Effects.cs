@@ -152,8 +152,68 @@ namespace SonyVegas_EffectsExporter
         #endregion
 
         #region Pancrop
+        /// S44_$s = Pancrop 
+        /// S46_%s = Mask
+        /// S48_%s = Trackanimation
+        /// HKEY_CURRENT_USER\SOFTWARE\Sony Creative Software\Vegas Pro\13.0\Metrics\Application
 
-        //HKEY_CURRENT_USER\SOFTWARE\Sony Creative Software\Vegas Pro\13.0\Metrics\Application
+        public static void GetPancrop(ListView listView)
+        {
+
+
+            string effect = @"SOFTWARE\Sony Creative Software\Vegas Pro\13.0\Metrics\Application";
+            var effect_key = Registry.CurrentUser.OpenSubKey(effect);
+            var effect_subKeys = effect_key.GetSubKeyNames();
+            listView.Items.Add("Pancrop");
+            listView.Items.Add("Mask");
+            listView.Items.Add("Trackanimation");
+        }
+
+        public static void GetPancropName(ListView listView1, ListView listView2)
+        {
+            try
+            {
+                string effect = @"SOFTWARE\Sony Creative Software\Vegas Pro\13.0\Metrics\Application";
+                var effect_key = Registry.CurrentUser.OpenSubKey(effect);
+                var effect_subKeys = effect_key.GetSubKeyNames();
+
+                if (listView1.SelectedItems[0].Text == "Pancrop")
+                {
+                    for (int i = 0; i < effect_key.GetValueNames().Length; i++)
+                    {
+                        if (effect_key.GetValueNames()[i].Contains("S44"))
+                            listView2.Items.Add(effect_key.GetValue(effect_key.GetValueNames()[i]).ToString());
+                    }
+                }
+                else if (listView1.SelectedItems[0].Text == "Mask")
+                {
+                    for (int i = 0; i < effect_key.GetValueNames().Length; i++)
+                    {
+                        if (effect_key.GetValueNames()[i].Contains("S46"))
+                            listView2.Items.Add(effect_key.GetValue(effect_key.GetValueNames()[i]).ToString());
+                    }
+                }
+                else if (listView1.SelectedItems[0].Text == "Trackanimation")
+                {
+                    for (int i = 0; i < effect_key.GetValueNames().Length; i++)
+                    {
+                        if (effect_key.GetValueNames()[i].Contains("S48"))
+                            listView2.Items.Add(effect_key.GetValue(effect_key.GetValueNames()[i]).ToString());
+                    }
+                }
+            }
+            catch { }
+        }
+
+        public static void ExportPancrop()
+        {
+            string filename = "Pancrop.reg";
+            string RegVersion = "Windows Registry Editor Version 5.00\n\n";
+            string RegPath = @"[HKEY_CURRENT_USER\SOFTWARE\Sony Creative Software\Vegas Pro\13.0\Metrics\Application]";
+            string fileContent = "";
+            RegVersion += RegPath;
+            File.WriteAllText(filename, RegVersion);
+        }
 
         #endregion
 
@@ -384,7 +444,7 @@ namespace SonyVegas_EffectsExporter
             for (int i = 0; i < Directory.GetFiles(path).Length; i++)
             {
                 if (Directory.GetFiles(path)[i].Contains(filename))
-                {          
+                {
                     Directory.CreateDirectory(Directory.GetCurrentDirectory() + $"/Render Templates"); //Directory
                     Directory.CreateDirectory(avc_mc);//Directory + avc_mc
                     string renderFileName = Path.GetFileName(Directory.GetFiles(path)[j]);

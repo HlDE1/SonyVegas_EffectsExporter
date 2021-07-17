@@ -280,6 +280,7 @@ namespace SonyVegas_EffectsExporter
             this.radioButton6.TabIndex = 17;
             this.radioButton6.Text = "Pancrop";
             this.radioButton6.UseVisualStyleBackColor = true;
+            this.radioButton6.CheckedChanged += new System.EventHandler(this.radioButton6_CheckedChanged);
             // 
             // radioButton7
             // 
