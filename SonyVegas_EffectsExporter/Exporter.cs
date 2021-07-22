@@ -15,9 +15,9 @@ using Microsoft.Win32;
 
 namespace SonyVegas_EffectsExporter
 {
-    public partial class Form1 : Form
+    public partial class Exporter : Form
     {
-        public Form1()
+        public Exporter()
         {
             InitializeComponent();
         }

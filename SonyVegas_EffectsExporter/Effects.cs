@@ -482,7 +482,7 @@ namespace SonyVegas_EffectsExporter
                         }*/
 
                         string xmlFileName = Path.GetFileName(Directory.GetFiles(Full_FilterPath)[j]);
-                        MessageBox.Show(Directory.GetFiles(Full_FilterPath)[j] + "\n\n" + MoveTo_Full_FilterPath + $"/{xmlFileName}");
+                        //MessageBox.Show(Directory.GetFiles(Full_FilterPath)[j] + "\n\n" + MoveTo_Full_FilterPath + $"/{xmlFileName}");
                         File.Copy(Directory.GetFiles(Full_FilterPath)[j], MoveTo_Full_FilterPath + $"/{xmlFileName}");
                     }
                 }

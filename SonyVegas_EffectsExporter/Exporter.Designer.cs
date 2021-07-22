@@ -1,7 +1,7 @@
 ﻿
 namespace SonyVegas_EffectsExporter
 {
-    partial class Form1
+    partial class Exporter
     {
         /// <summary>
         /// Required designer variable.
@@ -347,7 +347,7 @@ namespace SonyVegas_EffectsExporter
             this.checkBox2.Visible = false;
             this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
-            // Form1
+            // Exporter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -378,8 +378,8 @@ namespace SonyVegas_EffectsExporter
             this.Controls.Add(this.radioButton1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
-            this.Name = "Form1";
-            this.Text = "Sony Vegas Effects Manager";
+            this.Name = "Exporter";
+            this.Text = "Effects Exporter";
             this.ResumeLayout(false);
             this.PerformLayout();
 
