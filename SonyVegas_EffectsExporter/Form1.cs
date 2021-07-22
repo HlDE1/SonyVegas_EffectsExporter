@@ -96,6 +96,57 @@ namespace SonyVegas_EffectsExporter
             }
         }
 
+        void ExportNewBlue(int selectedIndex)
+        {
+            string fileName = listView1.SelectedItems[0].Text.Replace(" ", "") + "_Preset";
+            if (File.Exists(fileName + ".reg"))
+                File.Delete(fileName + ".reg");
+
+            Effects.ExportReg(@"HKEY_USERS\S-1-5-21-2384987514-954954182-3699566690-1001\SOFTWARE\DXTransform\Presets\{" + Effects.Effect_CodeName[selectedIndex] + "}", fileName);
+            Thread.Sleep(1000);
+            if (listView2.CheckedItems.Count != listView2.Items.Count)
+            {
+                Effects.RegistryAddSpecificDataToList(fileName + ".reg");
+                File.AppendAllText("temp.txt", Effects.NewBlueData[0] + "\n");
+                for (int i = 0; i < listView2.Items.Count; i++)
+                {
+                    if (listView2.Items[i].Checked == true)
+                    {
+                        Effects.RegistryRemoveSpecificData(listView2.Items[i].Text, fileName + ".reg");
+                    }
+                }
+                File.Delete(fileName + ".reg");
+                File.Move("temp.txt", fileName + ".reg");
+                Effects.NewBlueData.Clear();
+            }
+        }
+
+        void ExportPancrop(int selectedIndex)
+        {
+            string fileName = listView1.SelectedItems[0].Text.Replace(" ", "") + "_Preset";
+            if (File.Exists(fileName + ".reg"))
+                File.Delete(fileName + ".reg");
+
+            Effects.ExportReg(@"HKEY_CURRENT_USER\SOFTWARE\Sony Creative Software\Vegas Pro\13.0\Metrics\Application", fileName);
+
+            Thread.Sleep(1000);
+            if (listView2.CheckedItems.Count != listView2.Items.Count)
+            {
+                Effects.RegistryAddSpecificDataToList(fileName + ".reg");
+                File.AppendAllText("temp.txt", Effects.NewBlueData[0] + "\n");
+                for (int i = 0; i < listView2.Items.Count; i++)
+                {
+                    if (listView2.Items[i].Checked == true)
+                    {
+                        Effects.RegistryRemoveSpecificData(listView2.Items[i].Text, fileName + ".reg");
+                    }
+                }
+                File.Delete(fileName + ".reg");
+                File.Move("temp.txt", fileName + ".reg");
+                Effects.NewBlueData.Clear();
+            }
+        }
+
         private void button2_Click(object sender, EventArgs e)
         {
             string OFX_Presets_path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/OFX Presets/";
@@ -103,7 +154,6 @@ namespace SonyVegas_EffectsExporter
             string FavouriteRenderSettings_Path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Sony\Render Templates\avc-mc";
 
             int selectedIndex = 0;
-            string fileName = "";
             if (listView1.SelectedIndices.Count > 0)
             {
                 if (listView2.CheckedItems.Count > 0)
@@ -112,28 +162,7 @@ namespace SonyVegas_EffectsExporter
 
                     if (radioButton3.Checked == true)//NewBlue
                     {
-                        fileName = listView1.SelectedItems[0].Text.Replace(" ", "") + "_Preset";
-                        if (File.Exists(fileName + ".reg"))
-                            File.Delete(fileName + ".reg");
-
-                        Effects.ExportReg(@"HKEY_USERS\S-1-5-21-2384987514-954954182-3699566690-1001\SOFTWARE\DXTransform\Presets\{" + Effects.Effect_CodeName[selectedIndex] + "}", fileName);
-                        Thread.Sleep(1000);
-                        if (listView2.CheckedItems.Count != listView2.Items.Count)
-                        {
-                            Effects.RegistryAddSpecificDataToList(fileName + ".reg");
-                            File.AppendAllText("temp.txt", Effects.NewBlueData[0] + "\n");
-                            for (int i = 0; i < listView2.Items.Count; i++)
-                            {
-                                if (listView2.Items[i].Checked == true)
-                                {
-                                    Effects.RegistryRemoveSpecificData(listView2.Items[i].Text, fileName + ".reg");
-                                }
-                            }
-                            File.Delete(fileName + ".reg");
-                            File.Move("temp.txt", fileName + ".reg");
-                            Effects.NewBlueData.Clear();
-                        }
-
+                        ExportNewBlue(selectedIndex);
                     }
                     else if (radioButton5.Checked == true || radioButton1.Checked == true || radioButton2.Checked == true || radioButton4.Checked == true)
                     {
@@ -157,14 +186,9 @@ namespace SonyVegas_EffectsExporter
                     }
                     else if (radioButton6.Checked == true)
                     {
-                        //for (int i = 0; i < listView2.Items.Count; i++)
-                        {
-                           // if (listView2.Items[i].Checked == true)
-                            {
-                                Effects.ExportPancrop();
-                            }
-                        }
+                        ExportPancrop(selectedIndex);
                     }
+
                     //Process.Start(Directory.GetCurrentDirectory());
                 }
                 else
@@ -185,6 +209,10 @@ namespace SonyVegas_EffectsExporter
             if (radioButton3.Checked == true)//NewBlue
             {
                 Effects.ExportReg(@"HKEY_USERS\S-1-5-21-2384987514-954954182-3699566690-1001\SOFTWARE\DXTransform\", "All_Effect_Presets");
+            }
+            else if (radioButton6.Checked == true) // Pancrop
+            {
+                Effects.ExportReg(@"HKEY_CURRENT_USER\SOFTWARE\Sony Creative Software\Vegas Pro\13.0\Metrics\Application\", "All_Pancrop_Presets");
             }
             else if (radioButton5.Checked == true || radioButton1.Checked == true || radioButton2.Checked == true || radioButton4.Checked == true)
             {
@@ -208,20 +236,21 @@ namespace SonyVegas_EffectsExporter
 
         private void button7_Click(object sender, EventArgs e)
         {
-            string effect = @"SOFTWARE\Sony Creative Software\Vegas Pro\13.0\Metrics\Application";
-            var effect_key = Registry.CurrentUser.OpenSubKey(effect);
-            var effect_subKeys = effect_key.GetSubKeyNames();
+            //string effect = @"SOFTWARE\Sony Creative Software\Vegas Pro\13.0\Metrics\Application";
+            //var effect_key = Registry.CurrentUser.OpenSubKey(effect);
+            //var effect_subKeys = effect_key.GetSubKeyNames();
             /*ImageList imgs = new ImageList();
             imgs.ImageSize = new Size(20, 20);
             imgs.Images.Add(Resource1.notepad);
             listView2.SmallImageList = imgs;
             listView2.Items.Add("Test", 0);*/
             //Effects.RegistryRemoveSpecificData("");
-            for (int i = 0; i < effect_key.GetValueNames().Length; i++)
-            {
-                if (effect_key.GetValueNames()[i].Contains("S44"))
-                    listView2.Items.Add(effect_key.GetValue(effect_key.GetValueNames()[i]).ToString());
-            }
+            /*  for (int i = 0; i < effect_key.GetValueNames().Length; i++)
+              {
+                  if (effect_key.GetValueNames()[i].Contains("S44"))
+                      listView2.Items.Add(effect_key.GetValue(effect_key.GetValueNames()[i]).ToString());
+              }*/
+
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)

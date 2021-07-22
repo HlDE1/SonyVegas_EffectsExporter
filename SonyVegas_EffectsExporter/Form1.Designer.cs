@@ -272,6 +272,7 @@ namespace SonyVegas_EffectsExporter
             // radioButton6
             // 
             this.radioButton6.AutoSize = true;
+            this.radioButton6.Enabled = false;
             this.radioButton6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButton6.ForeColor = System.Drawing.Color.White;
             this.radioButton6.Location = new System.Drawing.Point(473, 22);
@@ -378,7 +379,7 @@ namespace SonyVegas_EffectsExporter
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "Form1";
-            this.Text = "Sony Vegas Effects Exporter";
+            this.Text = "Sony Vegas Effects Manager";
             this.ResumeLayout(false);
             this.PerformLayout();
 

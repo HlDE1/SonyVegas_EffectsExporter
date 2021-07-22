@@ -156,6 +156,9 @@ namespace SonyVegas_EffectsExporter
         /// S46_%s = Mask
         /// S48_%s = Trackanimation
         /// HKEY_CURRENT_USER\SOFTWARE\Sony Creative Software\Vegas Pro\13.0\Metrics\Application
+        public static List<string> PancropHexCode = new List<string>();
+        public static List<string> MaskHexCode = new List<string>();
+        public static List<string> TrackAnimationHexCode = new List<string>();
 
         public static void GetPancrop(ListView listView)
         {
@@ -182,37 +185,84 @@ namespace SonyVegas_EffectsExporter
                     for (int i = 0; i < effect_key.GetValueNames().Length; i++)
                     {
                         if (effect_key.GetValueNames()[i].Contains("S44"))
+                        {
                             listView2.Items.Add(effect_key.GetValue(effect_key.GetValueNames()[i]).ToString());
+                            PancropHexCode.Add(effect_key.GetValueNames()[i]);
+                        }
                     }
                 }
                 else if (listView1.SelectedItems[0].Text == "Mask")
                 {
-                    for (int i = 0; i < effect_key.GetValueNames().Length; i++)
+                    /*for (int i = 0; i < effect_key.GetValueNames().Length; i++)
                     {
                         if (effect_key.GetValueNames()[i].Contains("S46"))
                             listView2.Items.Add(effect_key.GetValue(effect_key.GetValueNames()[i]).ToString());
-                    }
+                    }*/
                 }
                 else if (listView1.SelectedItems[0].Text == "Trackanimation")
                 {
-                    for (int i = 0; i < effect_key.GetValueNames().Length; i++)
+                    /*for (int i = 0; i < effect_key.GetValueNames().Length; i++)
                     {
                         if (effect_key.GetValueNames()[i].Contains("S48"))
                             listView2.Items.Add(effect_key.GetValue(effect_key.GetValueNames()[i]).ToString());
-                    }
+                    }*/
                 }
             }
             catch { }
         }
 
-        public static void ExportPancrop()
+        public static void ExportPancrop(ListView listView2)
         {
-            string filename = "Pancrop.reg";
-            string RegVersion = "Windows Registry Editor Version 5.00\n\n";
-            string RegPath = @"[HKEY_CURRENT_USER\SOFTWARE\Sony Creative Software\Vegas Pro\13.0\Metrics\Application]";
-            string fileContent = "";
-            RegVersion += RegPath;
-            File.WriteAllText(filename, RegVersion);
+            try
+            {
+                string effect = @"SOFTWARE\Sony Creative Software\Vegas Pro\13.0\Metrics\Application";
+                var effect_key = Registry.CurrentUser.OpenSubKey(effect);
+                var effect_subKeys = effect_key.GetSubKeyNames();
+
+                string filename = "Pancrop.reg";
+                string RegVersion = "Windows Registry Editor Version 5.00\n\n";
+                string RegPath = @"[HKEY_CURRENT_USER\SOFTWARE\Sony Creative Software\Vegas Pro\13.0\Metrics\Application]";
+                string fileContent = "";
+                RegVersion += RegPath;
+                RegVersion += "\n\n";
+                File.WriteAllText(filename, RegVersion);
+
+                string hexName = PancropHexCode[listView2.SelectedItems[0].Index].Replace('S', 'B');
+                var hexCode = (byte[])effect_key.GetValue("B4400");
+                string hexPrint = $"\"{hexName}\"" + "=hex:";
+                string hexCodeStr = BitConverter.ToString(hexCode).Replace("-", ",").ToString();
+                string test = "";
+
+                MessageBox.Show(hexCodeStr.Length.ToString());
+                //Clipboard.SetText(BitConverter.ToString(hexCode).Replace("-", ",").ToString());
+                int t2 = 0;
+                for (int i = 0; i < hexCodeStr.Length; i++)
+                {
+                    test += BitConverter.ToString(hexCode).Replace("-", ",")[i].ToString().ToLower();
+                    if (i == 66 - 1)
+                    {
+                        test += @"\" + "\n";
+                        t2++;
+                    }
+                    else if (75 - 2 + i == 216)
+                    {
+                        test += @"\" + "\n";
+                        t2++;
+                        MessageBox.Show(((hexCodeStr.Length - 66) % 75).ToString());
+                    }
+                    if (216 + ((hexCodeStr.Length - 66) % 75) == 251 && t2 == 2)
+                    {
+                        test += @"\" + "\n";
+                        t2++;
+                    }
+                }
+
+                // hexName += hexCode;
+                hexPrint += test;
+                File.AppendAllText(filename, hexPrint);
+
+            }
+            catch { }
         }
 
         #endregion
@@ -350,10 +400,14 @@ namespace SonyVegas_EffectsExporter
 
         #region Export
 
+        public static string ConvertStringToCmdString(string Text)
+        {
+            return Text.Replace(" ", "\" \"");
+        }
         public static void ExportReg(string path, string filename)
         {
 
-            Process.Start("cmd.exe", $@"/c REG EXPORT {path} {filename}.reg");
+            Process.Start("cmd.exe", $@"/c REG EXPORT {ConvertStringToCmdString(path)} {filename}.reg");
         }
 
         public static void RegistryAddSpecificDataToList(string path)
