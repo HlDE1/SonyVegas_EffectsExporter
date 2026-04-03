@@ -272,7 +272,6 @@ namespace SonyVegas_EffectsExporter
             // radioButton6
             // 
             this.radioButton6.AutoSize = true;
-            this.radioButton6.Enabled = false;
             this.radioButton6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButton6.ForeColor = System.Drawing.Color.White;
             this.radioButton6.Location = new System.Drawing.Point(473, 22);
@@ -316,6 +315,7 @@ namespace SonyVegas_EffectsExporter
             this.button7.TabIndex = 20;
             this.button7.Text = "button7";
             this.button7.UseVisualStyleBackColor = true;
+            this.button7.Visible = false;
             this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // checkBox1
